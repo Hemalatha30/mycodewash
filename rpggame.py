@@ -44,39 +44,39 @@ while True:
     move = move.lower().split()
 
 #if they type 'go' first
-    if move[0] == 'go':
+if move[0] == 'go':
     # check that they are allowed wherever they want to go
-        if move[1] in rooms[currentRoom]:
+    if move[1] in rooms[currentRoom]:
         #set the current room to new room
-            currentRoom = rooms[currentRoom][move[1]]
+        currentRoom = rooms[currentRoom][move[1]]
 	#there is no door (link) to new room
     else:
 	    print('You can\'t go that way!')
 
 
 #if they type 'get' first
-    if move[0] == 'get' :
-        # if room contains an item, and the item is the one way want to get
-        if "item" in rooms[currentRoom] and move[1] in rooms[currentRoom]['item']:
-            #add the item to their inventory
-            inventory += [move[1]]
-	    #display helpful message
-            print (move[1]  + ' got!')
-	    #delete the items from the room
-            del rooms[currentRoom]['item']
-            #otherwise , if the item is not there to get
-        else:
-            #tell then they cannot get it
-            print('Can\'t get'+ move[1] + '!')
+if move[0] == 'get' :
+    # if room contains an item, and the item is the one way want to get
+    if "item" in rooms[currentRoom] and move[1] in rooms[currentRoom]['item']:
+        #add the item to their inventory
+        inventory += [move[1]]
+	#display helpful message
+        print (move[1]  + ' got!')
+	#delete the items from the room
+        del rooms[currentRoom]['item']
+        #otherwise , if the item is not there to get
+    else:
+        #tell then they cannot get it
+        print('Can\'t get'+ move[1] + '!')
 
 ## If a player enters a room with monster
-    if 'item' in rooms[currentRoom] and 'monster' in rooms[currentRoom]['item']:
-        print('A monster has got you ... Game over!')
-        break
+if 'item' in rooms[currentRoom] and 'monster' in rooms[currentRoom]['item']:
+    print('A monster has got you ... Game over!')
+    break
 
- if currentRoom == 'Garden' and 'Key' in inventory and 'potion' in inventory:
-     print('You escaped the house with ultra rare key and magic potion .. You WIN!')
-     break
+if currentRoom == 'Garden' and 'Key' in inventory and 'potion' in inventory:
+    print('You escaped the house with ultra rare key and magic potion .. You WIN!')
+    break
 
 
 
