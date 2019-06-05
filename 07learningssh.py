@@ -8,12 +8,14 @@ import os
 import paramiko
 
 SRVRS =[{'ip':'10.10.2.3','un':'bender'},{'ip':'10.10.2.4', 'un':'fry'}]
+with open("cmd2issue.txt","r")as cmds:
+    CMDLIST = cmds.readlines()
 
-CMDLIST = ['touch sshworked.txt', 'touch sshworked2.txt', 'uptime']
+    #CMDLIST = ['touch sshworked.txt', 'touch sshworked2.txt', 'uptime']
 
 def cmdissue(sshsession, commandtoissue):
-    ssh_stdin, ssh_stdout, ssh_stderr = sshsession.exec_command(commandtoissue)
-    return ssh_stdout.read()
+    ssh_stdin, ssh_stdout, ssh_stderr = sshsession.exec_command(commandtoissue.rstrip('\n'))
+    return ssh_stdout.read().decode('utf-8').rstrip('\n')
 
 
 def main():
@@ -40,9 +42,14 @@ def main():
 
         # get uptime of server
         for commandtoissue in CMDLIST:
-            with open("serverresults.log","a") as svrlog:
+            result = cmdissue(sshsession,commandtoissue)
+            if result != "":
+                with open((server['ip']).replace(".","") + ".log","a") as svrlog:
+                    print("COMMAND ISSUES -", commandtoissue, file=svrlog)
+                    print(result,file=svrlog)
+                    print("",file=svrlog)
                 #cmdissue(sshsession, commandtoissue)
-                print(cmdissue(sshsession, commandtoissue), file=svrlog)
+                   # print(cmdissue(sshsession, commandtoissue), file=svrlog)
 
 
 
